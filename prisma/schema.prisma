@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Author {
+  Id          Int      @id @default(autoincrement())
+  FirstName   String
+  LastName    String
+  Pseudonym   String   @unique
+  BirthDate   DateTime
+  Nationality String
+  StatusId    Int      @default(1)
+  Status      Status   @relation(fields: [StatusId], references: [Id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Book        Book[]
+
+  @@map("Authors")
+}
+
+model Book {
+  Id          Int       @id @default(autoincrement())
+  ISBN        String    @unique
+  Title       String
+  Subtitle    String
+  PublishDate DateTime
+  Pages       Int
+  Description String
+  AuthorId    Int
+  Author      Author    @relation(fields: [AuthorId], references: [Id])
+  EditorialId Int
+  Editorial   Editorial @relation(fields: [EditorialId], references: [Id])
+  CategoryId  Int
+  Category    Category  @relation(fields: [CategoryId], references: [Id])
+  LanguageId  Int
+  Language    Language  @relation(fields: [LanguageId], references: [Id])
+  StatusId    Int       @default(1)
+  Status      Status    @relation(fields: [StatusId], references: [Id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("Books")
+}
+
+model Category {
+  Id          Int      @id @default(autoincrement())
+  Name        String   @unique
+  Description String
+  StatusId    Int      @default(1)
+  Status      Status   @relation(fields: [StatusId], references: [Id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Book Book[]
+
+  @@map("Categories")
+}
+
+model Editorial {
+  Id        Int      @id @default(autoincrement())
+  Name      String   @unique
+  Address   String
+  Phone     String
+  Email     String   @unique
+  Website   String   @unique
+  StatusId  Int      @default(1)
+  Status    Status   @relation(fields: [StatusId], references: [Id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Book Book[]
+
+  @@map("Editorials")
+}
+
+model Language {
+  Id          Int      @id @default(autoincrement())
+  Name        String   @unique
+  Description String
+  StatusId    Int      @default(1)
+  Status      Status   @relation(fields: [StatusId], references: [Id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Book Book[]
+
+  @@map("Languages")
+}
+
+model Status {
+  Id          Int      @id @default(autoincrement())
+  Name        String   @unique
+  Description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Book      Book[]
+  Author    Author[]
+  Category  Category[]
+  Editorial Editorial[]
+  Languages Language[]
+
+  @@map("Statuses")
+}

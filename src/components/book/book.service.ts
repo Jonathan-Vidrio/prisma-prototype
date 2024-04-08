@@ -1,0 +1,211 @@
+import { Injectable } from '@nestjs/common';
+import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
+import { PrismaService } from '../../database/prisma.service';
+import { Book } from './entities/book.entity';
+
+@Injectable()
+export class BookService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createBookDto: CreateBookDto): Promise<Book> {
+    return this.prisma.book.create({
+      data: {
+        ...createBookDto,
+        PublishDate: new Date(createBookDto.PublishDate),
+      },
+      select: {
+        Id: true,
+        ISBN: true,
+        Title: true,
+        Subtitle: true,
+        PublishDate: true,
+        Pages: true,
+        Description: true,
+        Author: {
+          include: {
+            Status: true,
+          },
+        },
+        Editorial: {
+          include: {
+            Status: true,
+          },
+        },
+        Category: {
+          include: {
+            Status: true,
+          },
+        },
+        Language: {
+          include: {
+            Status: true,
+          },
+        },
+        Status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+  async findAll(): Promise<Book[]> {
+    return this.prisma.book.findMany({
+      select: {
+        Id: true,
+        ISBN: true,
+        Title: true,
+        Subtitle: true,
+        PublishDate: true,
+        Pages: true,
+        Description: true,
+        Author: {
+          include: {
+            Status: true,
+          },
+        },
+        Editorial: {
+          include: {
+            Status: true,
+          },
+        },
+        Category: {
+          include: {
+            Status: true,
+          },
+        },
+        Language: {
+          include: {
+            Status: true,
+          },
+        },
+        Status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async findOne(id: number): Promise<Book> {
+    return this.prisma.book.findUnique({
+      where: { Id: id },
+      select: {
+        Id: true,
+        ISBN: true,
+        Title: true,
+        Subtitle: true,
+        PublishDate: true,
+        Pages: true,
+        Description: true,
+        Author: {
+          include: {
+            Status: true,
+          },
+        },
+        Editorial: {
+          include: {
+            Status: true,
+          },
+        },
+        Category: {
+          include: {
+            Status: true,
+          },
+        },
+        Language: {
+          include: {
+            Status: true,
+          },
+        },
+        Status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async update(id: number, updateBookDto: UpdateBookDto): Promise<Book> {
+    let book = { ...updateBookDto };
+
+    if (book.PublishDate) {
+      const publishDate = new Date(book.PublishDate);
+      book = { ...book, PublishDate: publishDate };
+    }
+
+    return this.prisma.book.update({
+      where: { Id: id },
+      data: {
+        ...book,
+      },
+      select: {
+        Id: true,
+        ISBN: true,
+        Title: true,
+        Subtitle: true,
+        PublishDate: true,
+        Pages: true,
+        Description: true,
+        Author: {
+          include: {
+            Status: true,
+          },
+        },
+        Editorial: {
+          include: {
+            Status: true,
+          },
+        },
+        Category: {
+          include: {
+            Status: true,
+          },
+        },
+        Language: {
+          include: {
+            Status: true,
+          },
+        },
+        Status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  async remove(id: number): Promise<Book> {
+    return this.prisma.book.delete({
+      where: { Id: id },
+      select: {
+        Id: true,
+        ISBN: true,
+        Title: true,
+        Subtitle: true,
+        PublishDate: true,
+        Pages: true,
+        Description: true,
+        Author: {
+          include: {
+            Status: true,
+          },
+        },
+        Editorial: {
+          include: {
+            Status: true,
+          },
+        },
+        Category: {
+          include: {
+            Status: true,
+          },
+        },
+        Language: {
+          include: {
+            Status: true,
+          },
+        },
+        Status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+}
