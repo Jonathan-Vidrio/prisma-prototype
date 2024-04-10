@@ -11,26 +11,15 @@ export class CategoryService {
   async create(createCategoryDto: CreateCategoryDto): Promise<Language> {
     return this.prisma.category.create({
       data: { ...createCategoryDto },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async findAll(): Promise<Language[]> {
     return this.prisma.category.findMany({
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
+      include: {
+        Book: true,
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -38,13 +27,9 @@ export class CategoryService {
   async findOne(id: number): Promise<Language> {
     return this.prisma.category.findUnique({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
+      include: {
         Status: true,
-        createdAt: true,
-        updatedAt: true,
+        Book: true,
       },
     });
   }
@@ -56,28 +41,14 @@ export class CategoryService {
     return this.prisma.category.update({
       where: { Id: id },
       data: { ...updateCategoryDto },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async remove(id: number): Promise<Language> {
     return this.prisma.category.delete({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 }

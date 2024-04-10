@@ -11,26 +11,15 @@ export class LanguageService {
   async create(createLanguageDto: CreateLanguageDto): Promise<Language> {
     return this.prisma.language.create({
       data: { ...createLanguageDto },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async findAll(): Promise<Language[]> {
     return this.prisma.language.findMany({
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
+      include: {
+        Book: true,
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -38,13 +27,9 @@ export class LanguageService {
   async findOne(id: number): Promise<Language> {
     return this.prisma.language.findUnique({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
+      include: {
         Status: true,
-        createdAt: true,
-        updatedAt: true,
+        Book: true,
       },
     });
   }
@@ -56,28 +41,14 @@ export class LanguageService {
     return this.prisma.language.update({
       where: { Id: id },
       data: { ...updateLanguageDto },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async remove(id: number): Promise<Language> {
     return this.prisma.language.delete({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Description: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 }

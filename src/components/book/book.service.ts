@@ -14,14 +14,7 @@ export class BookService {
         ...createBookDto,
         PublishDate: new Date(createBookDto.PublishDate),
       },
-      select: {
-        Id: true,
-        ISBN: true,
-        Title: true,
-        Subtitle: true,
-        PublishDate: true,
-        Pages: true,
-        Description: true,
+      include: {
         Author: {
           include: {
             Status: true,
@@ -43,21 +36,12 @@ export class BookService {
           },
         },
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
   async findAll(): Promise<Book[]> {
     return this.prisma.book.findMany({
-      select: {
-        Id: true,
-        ISBN: true,
-        Title: true,
-        Subtitle: true,
-        PublishDate: true,
-        Pages: true,
-        Description: true,
+      include: {
         Author: {
           include: {
             Status: true,
@@ -79,8 +63,6 @@ export class BookService {
           },
         },
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -88,14 +70,7 @@ export class BookService {
   async findOne(id: number): Promise<Book> {
     return this.prisma.book.findUnique({
       where: { Id: id },
-      select: {
-        Id: true,
-        ISBN: true,
-        Title: true,
-        Subtitle: true,
-        PublishDate: true,
-        Pages: true,
-        Description: true,
+      include: {
         Author: {
           include: {
             Status: true,
@@ -117,8 +92,6 @@ export class BookService {
           },
         },
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -136,14 +109,7 @@ export class BookService {
       data: {
         ...book,
       },
-      select: {
-        Id: true,
-        ISBN: true,
-        Title: true,
-        Subtitle: true,
-        PublishDate: true,
-        Pages: true,
-        Description: true,
+      include: {
         Author: {
           include: {
             Status: true,
@@ -165,8 +131,6 @@ export class BookService {
           },
         },
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -174,14 +138,7 @@ export class BookService {
   async remove(id: number): Promise<Book> {
     return this.prisma.book.delete({
       where: { Id: id },
-      select: {
-        Id: true,
-        ISBN: true,
-        Title: true,
-        Subtitle: true,
-        PublishDate: true,
-        Pages: true,
-        Description: true,
+      include: {
         Author: {
           include: {
             Status: true,
@@ -203,8 +160,6 @@ export class BookService {
           },
         },
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }

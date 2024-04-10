@@ -14,32 +14,15 @@ export class AuthorService {
         ...createAuthorDto,
         BirthDate: new Date(createAuthorDto.BirthDate),
       },
-      select: {
-        Id: true,
-        FirstName: true,
-        LastName: true,
-        Pseudonym: true,
-        BirthDate: true,
-        Nationality: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async findAll(): Promise<Author[]> {
     return this.prisma.author.findMany({
-      select: {
-        Id: true,
-        FirstName: true,
-        LastName: true,
-        Pseudonym: true,
-        BirthDate: true,
-        Nationality: true,
+      include: {
+        Book: true,
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -47,16 +30,9 @@ export class AuthorService {
   async findOne(id: number): Promise<Author> {
     return this.prisma.author.findUnique({
       where: { Id: id },
-      select: {
-        Id: true,
-        FirstName: true,
-        LastName: true,
-        Pseudonym: true,
-        BirthDate: true,
-        Nationality: true,
+      include: {
         Status: true,
-        createdAt: true,
-        updatedAt: true,
+        Book: true,
       },
     });
   }
@@ -72,34 +48,14 @@ export class AuthorService {
     return this.prisma.author.update({
       where: { Id: id },
       data: author,
-      select: {
-        Id: true,
-        FirstName: true,
-        LastName: true,
-        Pseudonym: true,
-        BirthDate: true,
-        Nationality: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async remove(id: number): Promise<Author> {
     return this.prisma.author.delete({
       where: { Id: id },
-      select: {
-        Id: true,
-        FirstName: true,
-        LastName: true,
-        Pseudonym: true,
-        BirthDate: true,
-        Nationality: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 }

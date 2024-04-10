@@ -15,12 +15,19 @@ export class StatusService {
   }
 
   async findAll(): Promise<Status[]> {
-    return this.prisma.status.findMany();
+    return this.prisma.status.findMany({
+      include: {
+        Book: true,
+      },
+    });
   }
 
   async findOne(id: number): Promise<Status> {
     return this.prisma.status.findUnique({
       where: { Id: id },
+      include: {
+        Book: true,
+      },
     });
   }
 

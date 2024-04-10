@@ -11,32 +11,15 @@ export class EditorialService {
   async create(createEditorialDto: CreateEditorialDto): Promise<Editorial> {
     return this.prisma.editorial.create({
       data: { ...createEditorialDto },
-      select: {
-        Id: true,
-        Name: true,
-        Address: true,
-        Phone: true,
-        Email: true,
-        Website: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async findAll(): Promise<Editorial[]> {
     return this.prisma.editorial.findMany({
-      select: {
-        Id: true,
-        Name: true,
-        Address: true,
-        Phone: true,
-        Email: true,
-        Website: true,
+      include: {
+        Book: true,
         Status: true,
-        createdAt: true,
-        updatedAt: true,
       },
     });
   }
@@ -44,16 +27,9 @@ export class EditorialService {
   async findOne(id: number): Promise<Editorial> {
     return this.prisma.editorial.findUnique({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Address: true,
-        Phone: true,
-        Email: true,
-        Website: true,
+      include: {
         Status: true,
-        createdAt: true,
-        updatedAt: true,
+        Book: true,
       },
     });
   }
@@ -65,34 +41,14 @@ export class EditorialService {
     return this.prisma.editorial.update({
       where: { Id: id },
       data: { ...updateEditorialDto },
-      select: {
-        Id: true,
-        Name: true,
-        Address: true,
-        Phone: true,
-        Email: true,
-        Website: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 
   async remove(id: number): Promise<Editorial> {
     return this.prisma.editorial.delete({
       where: { Id: id },
-      select: {
-        Id: true,
-        Name: true,
-        Address: true,
-        Phone: true,
-        Email: true,
-        Website: true,
-        Status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      include: { Status: true },
     });
   }
 }
