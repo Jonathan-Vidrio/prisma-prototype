@@ -7,7 +7,14 @@ import { LanguageModule } from './components/language/language.module';
 import { StatusModule } from './components/status/status.module';
 
 @Module({
-  imports: [BookModule, AuthorModule, CategoryModule, EditorialModule, LanguageModule, StatusModule],
+  imports: [
+    BookModule,
+    AuthorModule,
+    CategoryModule,
+    EditorialModule,
+    LanguageModule,
+    StatusModule,
+  ],
   controllers: [],
   providers: [],
 })
